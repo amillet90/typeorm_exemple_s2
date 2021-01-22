@@ -1,0 +1,32 @@
+{% extends "layout.html.twig" %}
+
+
+{% block content %}
+
+    <div class="row">
+
+        il faut supprimer  <strong>{{ nombre }} </strong> enregistrements dans la table OEUVRE avant de supprimer cet Auteur
+        <br> (et peut être dans la table des enregistrements dans les tables EXEMPLAIRE et EMPRUNT)
+        <br>
+        <!--    lien pour supprimer dans la table OEUVRE avant de supprimer cet Auteur
+            <ul>
+                <?php /*foreach ($donnees as $value): */?>
+                    <li>
+                        num :
+                        <?php /*echo($value['noOeuvre']); */?>
+                        &nbsp;- titre :
+                        <?php /*echo $value['titre']; */?>
+                        &nbsp;- date parution :
+                        <?php /*echo $value['dateParution']; */?>
+
+                        <a href="Oeuvre_delete.php?id=<?php /*echo $value['noOeuvre'];*/?>&amp;op=deleteAuteur&amp;idAuteur=<?php /*echo $id;*/?>">supprimer</a>
+                    </li>
+                <?php /*endforeach; */?>
+            </ul>
+        </div>-->
+
+
+    </div>
+    <a href="{{ path('auteur_afficherAuteurs') }}">annuler</a>
+
+{% endblock %}

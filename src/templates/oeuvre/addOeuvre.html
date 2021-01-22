@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+    <div class="row">
+        <form method="post" action="/oeuvre/creerOeuvre">
+            <fieldset>
+                <legend>Ajouter une Oeuvre</legend>
+                <label>Titre
+                    <input name="titre"  type="text"  size="18" value="{{ donnees.titre |default('')}}"/>
+                </label>
+                {% if erreurs.titre is defined %}
+                    <small class="error">{{erreurs.titre}}</small>
+                {% endif %}
+                <label>date de parution
+                    <input name="dateParution"  type="text"  size="18" value="{{ donnees.dateParution |default('')}}"/>
+                </label>
+                {% if erreurs.dateParution is defined %}
+                    <small class="error">{{erreurs.dateParution}}</small>
+                {% endif %}
+
+                <label>Auteur</label>
+                <select name="idAuteur">
+                    {% if  donnees.idAuteur is not defined or donnees.idAuteur is empty   %}
+                        <option value="">Saisir une valeur</option>
+                    {% endif %}
+                    {% for auteur in auteurs %}
+                        <option value="{{ auteur.id }}"
+                                {% if donnees.idAuteur is defined and auteur.idAuteur == donnees.idAuteur %}selected{% endif %}>
+                            {{ auteur.nom }}
+                        </option>
+                    {% endfor %}
+                </select>
+                {% if erreurs.idAuteur is defined %}
+                    <small class="error">{{erreurs.idAuteur}}</small>
+                {% endif %}
+
+                <label>photo
+                    <input name="photo"  type="text"  size="18" value="{{ donnees.photo |default('')}}"/>
+                </label>
+                {% if erreurs.photo is defined %}
+                    <small class="error">{{erreurs.photo}}</small>
+                {% endif %}
+                <input type="submit" name="AddOeuvre" value="Ajouter" class="button radius"/>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

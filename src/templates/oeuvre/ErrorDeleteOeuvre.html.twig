@@ -1,0 +1,21 @@
+{% extends "layout.html.twig" %}
+
+
+{% block content %}
+    <div class="row">
+        il existe des enregistrements à supprimer dans la table EXEMPLAIRE avant de supprimer cet OEUVRE
+        <ul>
+            {% for exemplaire in exemplaires %}
+            <li>
+                num : {{ exemplaire.noExemplaire }}
+                &nbsp;- état : {{ exemplaire.etat }}
+                &nbsp;- date achat : {{ exemplaire.dateAchat }}
+                &nbsp;- prix :  {{ exemplaire.prix }}
+                <a href="/Exemplaire/supprimerExemplaire/{{ exemplaire.noExemplaire }}">supprimer</a>
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <a href="/Oeuvre/afficherOeuvres">annuler</a>
+{% endblock %}

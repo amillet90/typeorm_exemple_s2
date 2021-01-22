@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="row" >
+        {#    {{ dump(auteurs) }}#}
+        <a href="/auteur/creerAuteur"> Ajouter un Auteur </a><br>
+        <table border="2">
+            <caption>Recapitulatif des Auteurs</caption>
+            <thead>
+            <tr><th>nom</th><th>prenom</th><th>nombre d'oeuvres</th><th>opérations</th></tr>
+            </thead>
+            <tbody>
+            {%  if auteurs %}
+            {% for auteur in auteurs %}
+            <tr><td>
+                    {{ auteur.nom }}
+                </td><td>
+                    {{ auteur.prenom }}
+                </td><td>
+                    {{ auteur.nbrOeuvre }}
+                </td>
+                <td>
+                    <a href="/auteur/modifierAuteur/{{ auteur.id }}">Modifier</a>
+                    <a href="/auteur/supprimerAuteur/{{ auteur.id }}">supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td> pas d'auteur dans la base de données</td>
+            </tr>
+            {% endif %}
+            <tbody>
+        </table>
+    </div>
+
+{% endblock %}

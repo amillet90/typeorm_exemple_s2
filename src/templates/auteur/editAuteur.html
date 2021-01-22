@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{#    {{ dump(donnees) }}#}
+    <div class="row ">
+        <form method="post" action="/auteur/modifierAuteur">
+            <fieldset>
+                <legend>Modifier un Auteur</legend>
+                <input name="id"  type="hidden" value="{{ auteur.id }}"/>
+                <label>Nom
+                    <input name="nom"  type="text"  size="18" value="{{ auteur.nom }}"/>
+                </label>
+                {% if erreurs.nomAuteur is defined %}
+                    <small class="error">{{erreurs.nomAuteur}}</small>
+                {% endif %}
+                <label>Prénom</label>
+                <input name="prenom"  type="text"  size="18" value="{{ auteur.prenom }}"/>
+                <input type="submit" name="validerForm" value="valider" />
+            </fieldset>
+        </form>
+    </div>
+
+{% endblock %}
