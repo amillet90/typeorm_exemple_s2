@@ -1,4 +1,4 @@
-# Baby First Express with TypeORM
+# Exemple de Yuki : Express avec TypeORM
 
 Steps to run this project:
 
@@ -12,17 +12,20 @@ Steps to run this project:
 
 -------
 
-"morgan": afficher les logs  sur routes appelèes
-"nunjucks": equivalent à twig (fait par mozilla)
+* "morgan": afficher les logs des routes appelées
+* "nunjucks": equivalent à twig (fait par mozilla)
+    * <https://mozilla.github.io/nunjucks/getting-started.html>
+    * <https://www.npmjs.com/package/express-nunjucks#use-globals>
 
-https://mozilla.github.io/nunjucks/getting-started.html
+
+<br>  
 
 mysql --user=votreLogin  --password=votreMotDePasse --host=localhost --database=typeorm_test
 
-https://www.npmjs.com/package/express-nunjucks#use-globals
 
 
-```
+
+```sql
 -- DROP TABLE IF EXISTS  EMPRUNTS, EXEMPLAIRES , OEUVRES,AUTEURS, ADHERENTS   ; 
 
 INSERT INTO AUTEURS (id, nom, prenom) VALUES
