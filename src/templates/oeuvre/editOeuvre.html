@@ -3,48 +3,51 @@
 {% block content %}
 
     <div class="row">
-        <form method="post" action="{{ path('oeuvre_validFormModifierOeuvre') }}">
+        <form method="post" action="/oeuvre/modifierOeuvre">
             <fieldset>
                 <legend>Modifier une Oeuvre</legend>
                 <label>Titre
-                    <input name="titre"  type="text"  size="18" value="{{ donnees.titre }}"/>
+                    <input name="titre"  type="text"  size="18" value="{{ oeuvre.titre }}"/>
                 </label>
                 {% if erreurs.titre is defined %}
-                    <small class="error">{{erreurs.titre}}</small>
+                    <small class="error">{{erreurs.titre.msg}}</small>
                 {% endif %}
                 <label>date de parution
-                    <input name="dateParution"  type="text"  size="18" value="{{ donnees.dateParution }}"/>
+                    {% if dateParution %}{{ dateParution }}{% else %}{{ oeuvre.dateParution }}{% endif %}
+                    <input name="dateParution"  type="text"  size="18"
+                           value="{% if dateParution %}{{ dateParution }}{% else %}{{ oeuvre.dateParution }}{% endif %}"/>
                 </label>
                 {% if erreurs.dateParution is defined %}
-                    <small class="error">{{erreurs.dateParution}}</small>
+                    <small class="error">{{erreurs.dateParution.msg}}</small>
                 {% endif %}
 
                 <label>Auteur</label>
-                <select name="idAuteur">
-                    {% for auteur in donneesAuteur %}
-                        <option value="{{ auteur.idAuteur }}"
-                                {% if donnees.idAuteur is defined and auteur.idAuteur == donnees.idAuteur %}selected{% endif %}>
-                            {{ auteur.nomAuteur }}
-                        </option>
+                <select name="auteur">
+                    {% for auteur in auteurs %}
+                    <option value="{{ auteur.id }}"
+                            {% if oeuvre.auteur is defined and auteur.id == oeuvre.auteur %}selected{% endif %}>
+                        {{ auteur.nom }}
+                    </option>
                     {% endfor %}
                 </select>
-                {% if erreurs.idAuteur is defined %}
-                    <small class="error">{{erreurs.idAuteur}}</small>
+                {{ oeuvre.auteur }}
+                {% if erreurs.auteur is defined %}
+                    <small class="error">{{erreurs.auteur.msg}}</small>
                 {% endif %}
 
                 <label>photo
-                    <input name="photo"  type="text"  size="18" value="{{ donnees.photo }}"/>
+                    <input name="photo"  type="text"  size="18" value="{{ oeuvre.photo }}"/>
                 </label>
                 {% if erreurs.photo is defined %}
-                    <small class="error">{{erreurs.photo}}</small>
+                    <small class="error">{{erreurs.photo.msg}}</small>
                 {% endif %}
-                {% if donnees.photo is not empty %}
-                    <img style="width:150px;height:200px" src="{{ asset('assets/images/') }}{{ donnees.photo }}" alt="image de {{ donnees.titre }}" >
+                {% if oeuvre.photo  %}
+                    <img style="width:150px;height:200px" src="/static/assets/images/{{ oeuvre.photo }}" alt="image de {{ oeuvre.titre }}" >
                 {% else %}
-                    <img style="width:150px;height:200px" src="{{ asset('assets/images/no_photo.jpeg') }}" alt="pas de photo" >
+                    <img style="width:150px;height:200px" src="/static/assets/images/no_photo.jpeg" alt="pas de photo" >
                 {% endif %}
 
-                <input name="noOeuvre"  type="hidden" value="{{ donnees.noOeuvre }}"/>
+                <input name="id"  type="hidden" value="{{ oeuvre.id }}"/>
 
                 <input type="submit" name="UpdateOeuvre" value="Modifier" class="button radius"/>
             </fieldset>

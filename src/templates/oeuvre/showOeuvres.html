@@ -18,7 +18,7 @@
                     {{ oeuvre.titre }}
 
                 </td><td>
-                    {{ oeuvre.dateParution }}  | date('d-m-Y')
+                    {{ oeuvre.dateParution | date('DD/MM/YYYY') }}
                 </td><td>
                     {{ oeuvre.nbExemplaire }}
                 </td><td>
@@ -28,7 +28,7 @@
                     {% if oeuvre.photo  %}
                          <img style="width:20px;height:20px" src="/static/assets/images/{{ oeuvre.photo }}" alt="image de {{ oeuvre.titre }}" >
                     {% else %}
-                         <img style="width:20px;height:20px" src="/static/assets/images/no_photo.jpeg" alt="pas de photo" >
+                         <img style="width:20px;height:20px" src="/static/assets/images/no_photo.jpg" alt="pas de photo" >
                     {% endif %}
                 </td>
                 <td>

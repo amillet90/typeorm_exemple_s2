@@ -1,4 +1,4 @@
-import {Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn} from "typeorm";
 import {Auteur} from "./Auteur";
 import {Exemplaire} from "./Exemplaire";
 
@@ -10,14 +10,14 @@ export class Oeuvre {
     @Column()
     titre: string;
 
-    @Column({ type: 'date' })   // timestamp ?
+    @Column({ type: 'date' , name: 'date_parution'})   // timestamp ?
     dateParution: Date;
 
     @Column({type: 'text', nullable: true})
     photo: string;
 
     @ManyToOne((type) => Auteur, (auteur) => auteur.oeuvres , { nullable: true })
-   // @JoinColumn({ name: "auteur_id" })
+    @JoinColumn({ name: "auteur_id" })
     auteur: Auteur;
 
     @OneToMany((type) => Exemplaire, exemplaire => exemplaire.oeuvre)

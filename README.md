@@ -1,13 +1,14 @@
 # Exemple de Yuki : Express avec TypeORM
 
-Steps to run this project:
+Etapes pour démarrer ce projet :
 
-0. Make sure you have a MySQL server running
-   - If you're lazy but have Docker with docker-compose, you can
-     simply launch a MySQL container with `docker-compose up -d`
-1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
+0. Etre sur que votre serveur MySQL fonctionne (service actif)
+   - Vous pouvez utiliser Docker avec `docker-compose`, il suffit simplement de charger un conteneur avec MySql 
+     avec `docker-compose up -d`
+1. Lancer la commande `npm i` pour installer les dépendances
+2. Configurer les paramètres de connexion au système de gestion de bases de données dans le fichier : `ormconfig.json`
+3. Lancer l'application avec la commande `npm start` 
+    - cette commande lance un démon (nodemon) 
 
 
 -------
@@ -22,7 +23,10 @@ Steps to run this project:
 
 mysql --user=votreLogin  --password=votreMotDePasse --host=localhost --database=typeorm_test
 
+<br> 
 
+npm install express-validator moment --save
+npm install passport passport-local cookie-parser cookie-session --save
 
 
 ```sql
@@ -48,17 +52,17 @@ INSERT INTO AUTEURS (id, nom, prenom) VALUE
 (16, 'Moliere', 'Jean-Baptiste Poquelin');
 
 
-INSERT INTO OEUVRES (id, titre, dateParution, photo, auteurId) VALUES
+INSERT INTO OEUVRES (id, titre, date_parution, photo, auteur_id) VALUES
 (1, 'le retour de Poirot', '1960-02-12', 'leRetourDePoirot.jpg', 1);
-INSERT INTO OEUVRES (id, titre, dateParution, photo, auteurId) VALUES
+INSERT INTO OEUVRES (id, titre, date_parution, photo, auteur_id) VALUES
 (2, 'Poirot quitte la scène', '1975-05-01', '', 1);
-INSERT INTO OEUVRES (id, titre, dateParution, photo, auteurId) VALUES
+INSERT INTO OEUVRES (id, titre, date_parution, photo, auteur_id) VALUES
 (3, 'dix brèves rencontres', '1982-10-01', 'dixBrevesRencontres.jpg', 1),
 (4, 'le miroir de la mort', '1961-01-01', 'leMiroirDuMort.jpeg', 1),
 (6, 'une créature de rêve', '1992-02-01', '', 12),
 (7, 'mémoire d\'outre-tombe', '1949-01-01', '', 2),
 (8, 'Madame de Bovary', '1956-12-15', '', 3);
-INSERT INTO OEUVRES (id, titre, dateParution, photo, auteurId) VALUES
+INSERT INTO OEUVRES (id, titre, date_parution, photo, auteur_id) VALUES
 (9, 'un amour de swam', '2004-06-01', 'unAmourDeSwann.jpeg', 9),
 (10, 'les femmes savantes', '1672-03-16', '', 16),
 (11, 'le misanthrope', '1666-01-01', '', 16),
@@ -68,7 +72,7 @@ INSERT INTO OEUVRES (id, titre, dateParution, photo, auteurId) VALUES
 (15, 'La guerre des mondes', '1970-03-15', '', 14),
 (16, 'spectacles', '1948-05-12', '', 4),
 (17, 'Les fables', '1694-01-01', '', 5);
-INSERT INTO OEUVRES (id, titre, dateParution, photo, auteurId) VALUES
+INSERT INTO OEUVRES (id, titre, date_parution, photo, auteur_id) VALUES
 (18, 'Le triomphe de l\'amour', '1980-05-06', '', 5),
 (19, 'le livre de la jungle', '1968-12-11', '', 13),
 (20, 'kim', '1901-07-01', '', 13),
@@ -78,7 +82,7 @@ INSERT INTO OEUVRES (id, titre, dateParution, photo, auteurId) VALUES
 (24, 'la terre', '1887-01-01', '', 11);
 
 
-INSERT INTO EXEMPLAIRES (id, etat, dateAchat, prix, oeuvreId) VALUES
+INSERT INTO EXEMPLAIRES (id, etat, date_achat, prix, oeuvre_id) VALUES
 (1, 'BON', '2019-08-25', '13.50', 1),
 (2, 'MOYEN', '2011-09-28', '12.50', 1),
 (3, 'MOYEN', '2019-05-26', '12.00', 1),
@@ -120,7 +124,7 @@ INSERT INTO EXEMPLAIRES (id, etat, dateAchat, prix, oeuvreId) VALUES
 (40, 'BON', '2019-01-23', '11.00', 20);
 
 
-INSERT INTO ADHERENTS (id, nom, adresse, datePaiement) VALUES
+INSERT INTO ADHERENTS (id, nom, adresse, date_paiement) VALUES
 (1, 'billot', 'Montbeliard', '2020-11-03'),
 (2, 'lauvernay', 'sevenans', '2020-06-13'),
 (3, 'axelrad', 'sevenans', '2020-01-12'),
@@ -134,7 +138,7 @@ INSERT INTO ADHERENTS (id, nom, adresse, datePaiement) VALUES
 (11, 'durant', 'belfort', '2020-12-16'),
 (12, 'piton', 'belfort', '2020-11-03');
 
-INSERT INTO EMPRUNTS (adherentId, exemplaireID, dateEmprunt, dateRendu) VALUES
+INSERT INTO EMPRUNTS (adherent_id, exemplaire_id, date_emprunt, date_rendu) VALUES
 (6, 2, '2020-09-21', '2020-09-28'),
 (7, 2, '2020-10-21', '2020-10-28'),
 (8, 2, '2020-11-21', '2020-11-28'),
@@ -167,15 +171,25 @@ INSERT INTO EMPRUNTS (adherentId, exemplaireID, dateEmprunt, dateRendu) VALUES
 (5, 40, '2020-07-25', '2020-09-22');
 
 
-SELECT AUTEURS.nom, OEUVRES.titre, OEUVRES.id,OEUVRES.dateParution, OEUVRES.photo
+SELECT AUTEURS.nom, OEUVRES.titre, OEUVRES.id,OEUVRES.date_parution, OEUVRES.photo
 , COUNT(E1.id) AS nbExemplaire
 , COUNT(E2.id) AS nombreDispo
 FROM OEUVRES
-JOIN AUTEURS ON AUTEURS.id = OEUVRES.auteurId
+JOIN AUTEURS ON AUTEURS.id = OEUVRES.auteur_id
 LEFT JOIN EXEMPLAIRES E1 ON E1.oeuvreId = OEUVRES.id
 LEFT JOIN EXEMPLAIRES E2 ON E2.id = E1.id
 AND E2.id NOT IN (SELECT EMPRUNTS.exemplaireId FROM EMPRUNTS WHERE EMPRUNTS.dateRendu IS NULL)
 GROUP BY OEUVRES.id
 ORDER BY AUTEURS.nom ASC, OEUVRES.titre ASC;
+
+
+create table user (
+      id int AUTO_INCREMENT,
+      username VARCHAR(255),
+      password VARCHAR(255),
+      primary key (id)
+);
+INSERT INTO user VALUES(1, 'user1', '$2b$10$KxpTay.5PF5RXG46eT8jLOZwEUQEKttmIUcN1v5TIkcPieRr6Jmde')
+-- le mot de passe est encrypté (il faut utiliser le mot de passe "user1")
 ```
 

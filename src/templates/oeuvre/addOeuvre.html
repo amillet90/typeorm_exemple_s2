@@ -7,39 +7,40 @@
             <fieldset>
                 <legend>Ajouter une Oeuvre</legend>
                 <label>Titre
-                    <input name="titre"  type="text"  size="18" value="{{ donnees.titre |default('')}}"/>
+                    <input name="titre"  type="text"  size="18" value="{{ oeuvre.titre |default('')}}"/>
                 </label>
                 {% if erreurs.titre is defined %}
-                    <small class="error">{{erreurs.titre}}</small>
+                    <small class="error">{{erreurs.titre.msg}}</small>
                 {% endif %}
                 <label>date de parution
-                    <input name="dateParution"  type="text"  size="18" value="{{ donnees.dateParution |default('')}}"/>
+                    <input name="dateParution"  type="text"  size="18" value="{{ oeuvre.dateParution |default('')}}"/>
                 </label>
                 {% if erreurs.dateParution is defined %}
-                    <small class="error">{{erreurs.dateParution}}</small>
+                    <small class="error">{{erreurs.dateParution.msg}}</small>
                 {% endif %}
 
                 <label>Auteur</label>
-                <select name="idAuteur">
-                    {% if  donnees.idAuteur is not defined or donnees.idAuteur is empty   %}
+                <select name="auteur">
+                    {% if  oeuvre.id is not defined or oeuvre.id is empty   %}
                         <option value="">Saisir une valeur</option>
                     {% endif %}
                     {% for auteur in auteurs %}
                         <option value="{{ auteur.id }}"
-                                {% if donnees.idAuteur is defined and auteur.idAuteur == donnees.idAuteur %}selected{% endif %}>
+                                {% if oeuvre.auteur is defined and auteur.id == oeuvre.auteur %}selected{% endif %}>
                             {{ auteur.nom }}
                         </option>
                     {% endfor %}
                 </select>
-                {% if erreurs.idAuteur is defined %}
-                    <small class="error">{{erreurs.idAuteur}}</small>
+                {{ oeuvre.auteur }}
+                {% if erreurs.auteur is defined %}
+                    <small class="error">{{erreurs.auteur.msg}}</small>
                 {% endif %}
 
                 <label>photo
-                    <input name="photo"  type="text"  size="18" value="{{ donnees.photo |default('')}}"/>
+                    <input name="photo"  type="text"  size="18" value="{{ oeuvre.photo |default('')}}"/>
                 </label>
                 {% if erreurs.photo is defined %}
-                    <small class="error">{{erreurs.photo}}</small>
+                    <small class="error">{{erreurs.photo.msg}}</small>
                 {% endif %}
                 <input type="submit" name="AddOeuvre" value="Ajouter" class="button radius"/>
             </fieldset>

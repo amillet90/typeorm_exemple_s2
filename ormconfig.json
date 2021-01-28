@@ -4,7 +4,7 @@
    "port": 3306,
    "username": "votreLogin",
    "password": "votreMotDePasse",
-   "database": "S2_tp4",
+   "database": "S2_tp4b",
    "synchronize": true,
    "logging": false,
    "entities": [

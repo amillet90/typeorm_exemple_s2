@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Auteur } from "../entity/Auteur";
 import {getConnection} from "typeorm";
+import {validatorAuteur} from "../validator/AuteurValidator";
+import {validationResult} from "express-validator";
 
 export const auteurRouter = express.Router();
 
@@ -20,10 +22,10 @@ auteurRouter.get('/afficherAuteurs', async (_req: Request, res: Response) => {
 
     const auteurs2 = await getConnection().query("SELECT au.nom, au.prenom , au.id , count(oe.id) as nbrOeuvre" +
         "        FROM  AUTEURS au" +
-        "        LEFT JOIN OEUVRES oe ON au.id=oe.auteurId" +
+        "        LEFT JOIN OEUVRES oe ON au.id=oe.auteur_id" +
         "        GROUP BY au.nom, au.prenom , au.id" +
         "        ORDER BY au.nom ;");
-    console.log(auteurs);
+ //   console.log(auteurs);
      // console.log(auteurs);
     // createQueryBuilder()
     //     .select("auteur")
@@ -36,7 +38,7 @@ auteurRouter.get('/creerAuteur', (req: Request, res: Response) => {
     res.render('auteur/addAuteur.html');
 });
 
-auteurRouter.post('/creerAuteur', async (req: Request, res: Response) => {
+auteurRouter.post('/creerAuteur', validatorAuteur,async (req: Request, res: Response) => {
     const repoAuteur = getRepository(Auteur);
 
     let auteur = new Auteur();
@@ -44,10 +46,21 @@ auteurRouter.post('/creerAuteur', async (req: Request, res: Response) => {
     auteur.prenom = req.body.prenom;
    // const auteurEntity = repoAuteur.create(auteur);
     //const item = repoAuteur.create(req.body);
-    await repoAuteur.save(auteur).catch(error => console.log(error));
-  //  await connection.manager.save(auteur);
-    res.redirect('/auteur/afficherAuteurs');
+    let erreurs = validationResult(req);
+
+    if (erreurs.isEmpty()) {
+        await repoAuteur.save(auteur).catch(error => console.log(error));
+        //  await connection.manager.save(auteur);
+        res.redirect('/auteur/afficherAuteurs');
+    }
+    else
+    {
+        console.log(erreurs);
+        console.log(erreurs.mapped());
+        res.render('auteur/addAuteur.html',{erreurs: erreurs.mapped(), auteur: auteur});
+    }
 });
+
 
 
 auteurRouter.get('/supprimerAuteur/:id', async (req: Request, res: Response) => {
@@ -65,14 +78,24 @@ auteurRouter.get('/modifierAuteur/:id', async (req: Request, res: Response) => {
     res.render('auteur/editAuteur.html', { auteur: auteur });
 });
 
-auteurRouter.post('/modifierAuteur', async (req: Request, res: Response) => {
+auteurRouter.post('/modifierAuteur', validatorAuteur,async (req: Request, res: Response) => {
     const repo = getRepository(Auteur);
     let id = req.body.id;
-    const auteur = await repo.findOne(req.body.id);
+    let auteur = await repo.findOne(req.body.id);
     auteur.nom = req.body.nom;
     auteur.prenom = req.body.prenom;
     //const item = repo.create(req.body);
-    repo.save(auteur).catch(error => console.log(error));;
-    //  await connection.manager.save(auteur);
-    res.redirect('/auteur/afficherAuteurs');
+    let erreurs = validationResult(req);
+    if (erreurs.isEmpty()) {
+        repo.save(auteur).catch(error => console.log(error));
+        //  await connection.manager.save(auteur);
+        res.redirect('/auteur/afficherAuteurs');
+    }
+    else
+    {
+        console.log(erreurs);
+        console.log(erreurs.mapped());
+        res.render('auteur/addAuteur.html',{erreurs: erreurs.mapped(), auteur: auteur});
+    }
+
 });

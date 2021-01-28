@@ -14,7 +14,7 @@ export class Adherent {
     @Column("text")
     adresse: string;
 
-    @Column({ type: 'date' })
+    @Column({ type: 'date' , name: "date_paiement"})
     datePaiement: Date;
 
     @OneToMany((type) => Emprunt, emprunt => emprunt.adherent)

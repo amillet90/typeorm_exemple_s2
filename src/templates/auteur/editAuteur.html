@@ -11,11 +11,14 @@
                 <label>Nom
                     <input name="nom"  type="text"  size="18" value="{{ auteur.nom }}"/>
                 </label>
-                {% if erreurs.nomAuteur is defined %}
-                    <small class="error">{{erreurs.nomAuteur}}</small>
+                {% if erreurs.nom.msg  is defined %}
+                <small class="error">{{ erreurs.nom.msg }}</small>
                 {% endif %}
                 <label>Prénom</label>
                 <input name="prenom"  type="text"  size="18" value="{{ auteur.prenom }}"/>
+                {% if erreurs.prenom.msg is defined %}
+                <small class="error">{{ erreurs.prenom.msg }}</small>
+                {% endif %}
                 <input type="submit" name="validerForm" value="valider" />
             </fieldset>
         </form>

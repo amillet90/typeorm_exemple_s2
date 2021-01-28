@@ -7,14 +7,17 @@
                 <legend>Ajouter un Auteur</legend>
 
                 <label>Nom
-                    <input name="nom"  type="text"  size="18" value="{{ donnees.nom | default('aaaa') }}"/>
+                    <input name="nom"  type="text"  size="18" value="{{ auteur.nom | default('aaaa') }}"/>
                 </label>
-                {% if erreurs.nom is defined %}
-                    <small class="error">{{erreurs.nom}}</small>
+                {% if erreurs.nom.msg  is defined %}
+                    <small class="error">{{ erreurs.nom.msg }}</small>
                 {% endif %}
 
                 <label>Prénom</label>
-                <input name="prenom"  type="text"  size="18" value="{{ donnees.prenom|default('') }}"/>
+                <input name="prenom"  type="text"  size="18" value="{{ auteur.prenom|default('') }}"/>
+                {% if erreurs.prenom.msg is defined %}
+                <small class="error">{{ erreurs.prenom.msg }}</small>
+                {% endif %}
 
                 <input type="submit" name="validerForm" value="valider" />
             </fieldset>
