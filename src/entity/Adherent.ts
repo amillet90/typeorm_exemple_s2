@@ -1,6 +1,5 @@
 import { type } from "os";
 import { Column, Entity, PrimaryGeneratedColumn , OneToMany} from "typeorm";
-import { Oeuvre} from "./Oeuvre";
 import {Emprunt} from "./Emprunt";
 
 @Entity({name: "ADHERENTS" })
