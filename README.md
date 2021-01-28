@@ -1,4 +1,4 @@
-# Exemple de Yuki : Express avec TypeORM
+# Exemple : Express avec TypeORM
 
 Etapes pour démarrer ce projet :
 
@@ -12,6 +12,10 @@ Etapes pour démarrer ce projet :
 
 
 -------
+
+* typeOrm
+
+<br>
 
 * "morgan": afficher les logs des routes appelées
 * "nunjucks": equivalent à twig (fait par mozilla)
