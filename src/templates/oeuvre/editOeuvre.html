@@ -14,6 +14,7 @@
                 {% endif %}
                 <label>date de parution
                     {% if dateParution %}{{ dateParution }}{% else %}{{ oeuvre.dateParution }}{% endif %}
+                   ============ {{ oeuvre.dateParution | asyncFilter }}
                     <input name="dateParution"  type="text"  size="18"
                            value="{% if dateParution %}{{ dateParution }}{% else %}{{ oeuvre.dateParution }}{% endif %}"/>
                 </label>

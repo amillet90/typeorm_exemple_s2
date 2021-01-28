@@ -10,6 +10,7 @@ import path from "path";
 import { indexRouter } from "./controller/IndexController";
 import { auteurRouter } from "./controller/AuteurController";
 import { oeuvreRouter } from "./controller/OeuvreController";
+import moment from "moment";
 
 createConnection().then(async _connection => {
 
@@ -26,6 +27,15 @@ createConnection().then(async _connection => {
         express: app,
     });
     env.addFilter('date', dateFilter);
+
+    env.addFilter('asyncFilter', function(val, callba) {
+        if (val instanceof Date)
+        {
+            let dateResult = moment(val, "DD/MM/YYYY").format("DD-MM-YYYY");
+            return dateResult;
+        }
+        else return val;
+    }, false);
 
 
     // Setup static folder
