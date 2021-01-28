@@ -1,5 +1,4 @@
 import {Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn} from "typeorm";
-import {Auteur} from "./Auteur";
 import {Oeuvre} from "./Oeuvre";
 import {Emprunt} from "./Emprunt";
 
