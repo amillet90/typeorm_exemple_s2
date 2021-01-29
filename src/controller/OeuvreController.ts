@@ -50,14 +50,16 @@ oeuvreRouter.post('/creerOeuvre', validatorOeuvre, async (req: Request, res: Res
     oeuvre.titre = req.body.titre;
     oeuvre.dateParution = req.body.dateParution;
     oeuvre.photo = req.body.photo;
-    oeuvre.auteur = req.body.auteur
+    oeuvre.auteur = req.body.auteur;
+    console.log(req.body.auteur);
+    console.log(oeuvre.auteur);
 
     let erreurs = validationResult(req);
     if (erreurs.isEmpty()) {
         const repoAuteur = getRepository(Auteur);
-        const auteur = await repoAuteur.findOne(req.body.id);
+        const auteur = await repoAuteur.findOne(oeuvre.auteur);
         oeuvre.auteur = auteur;
-     //   console.log(oeuvre)
+        console.log(oeuvre)
 
         let dateparu = moment(oeuvre.dateParution, "DD/MM/YYYY").format("YYYY-MM-DD");
         oeuvre.dateParution=moment(dateparu, 'YYYY-MM-DD').toDate();;
@@ -68,8 +70,8 @@ oeuvreRouter.post('/creerOeuvre', validatorOeuvre, async (req: Request, res: Res
     }
     else
     {
-        console.log(erreurs);
-        console.log(erreurs.mapped());
+        //console.log(erreurs);
+        //console.log(erreurs.mapped());
         const repo = getRepository(Auteur);
         const auteurs = await repo.find();
         res.render('oeuvre/addOeuvre.html',{erreurs: erreurs.mapped(), oeuvre: oeuvre,  auteurs: auteurs});
@@ -90,14 +92,33 @@ oeuvreRouter.get('/supprimerOeuvre/:id', async (req: Request, res: Response) => 
 
 oeuvreRouter.get('/modifierOeuvre/:id', async (req: Request, res: Response) => {
     const repoOeuvre = getRepository(Oeuvre);
-    const oeuvre = await repoOeuvre.findOne(req.params.id);
+    const oeuvre3 = await repoOeuvre.findOne(req.params.id);
+    //
+    const oeuvre2 = await repoOeuvre.findOne({    // https://typeorm.io/#/find-options
+        relations: ["auteur"],
+        where: {id: req.params.id}
+    });
     const repoAuteur = getRepository(Auteur);
     const auteurs = await repoAuteur.find();
-    let dateparution = moment(oeuvre.dateParution).format("DD/MM/YYYY");
+    const oeuvre = await getConnection().createQueryBuilder()
+   //     .select(['oeuvre.id', 'oeuvre.titre', 'oeuvre.dateParution','oeuvre.photo'])
+        .select('oeuvre.id','id')
+        .addSelect('oeuvre.titre','titre')
+        .addSelect('oeuvre.dateParution','dateParution')
+        .addSelect('oeuvre.photo','photo')
+        .addSelect('oeuvre.auteur','auteur')
+       // .addSelect('auteur.id','auteur_id')
+        .from('Oeuvre','oeuvre')
+   //     .innerJoin(Auteur,'auteur','oeuvre.auteur = auteur.id')
+        .where("oeuvre.id = :id", { id: req.params.id }).getRawOne();   //getOne getMany getRawMany // .orderBy('nom','ASC')
 
-    oeuvre.dateParution=moment(dateparution, 'DD/MM/YYYY').toDate();
-    console.log(dateparution); console.log(oeuvre.dateParution);
-    res.render('oeuvre/editOeuvre.html', { oeuvre: oeuvre ,  auteurs: auteurs, dateParution: dateparution});
+    //console.log(auteurs);
+    console.log(oeuvre);console.log(oeuvre2);
+   // let dateparution = moment(oeuvre.dateParution).format("DD/MM/YYYY");
+  //  oeuvre.dateParution=moment(oeuvre.dateParution, 'YYYY-MM-DD').toDate();
+   // console.log(dateparution); console.log(oeuvre.dateParution);
+
+    res.render('oeuvre/editOeuvre.html', { oeuvre: oeuvre ,  auteurs: auteurs});  //, dateParution: dateparution
 });
 
 oeuvreRouter.post('/modifierOeuvre', validatorOeuvre,async (req: Request, res: Response) => {

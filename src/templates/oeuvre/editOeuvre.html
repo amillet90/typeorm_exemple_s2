@@ -13,10 +13,10 @@
                     <small class="error">{{erreurs.titre.msg}}</small>
                 {% endif %}
                 <label>date de parution
-                    {% if dateParution %}{{ dateParution }}{% else %}{{ oeuvre.dateParution }}{% endif %}
-                   ============ {{ oeuvre.dateParution | asyncFilter }}
+                   {# {% if dateParution %}{{ dateParution }}{% else %}{{ oeuvre.dateParution }}{% endif %}
+                   ============ remplacer par {{ oeuvre.dateParution | dateToString }} #}
                     <input name="dateParution"  type="text"  size="18"
-                           value="{% if dateParution %}{{ dateParution }}{% else %}{{ oeuvre.dateParution }}{% endif %}"/>
+                           value="{{ oeuvre.dateParution | dateToString}}"/>
                 </label>
                 {% if erreurs.dateParution is defined %}
                     <small class="error">{{erreurs.dateParution.msg}}</small>

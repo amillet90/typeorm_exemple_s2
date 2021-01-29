@@ -28,7 +28,7 @@ createConnection().then(async _connection => {
     });
     env.addFilter('date', dateFilter);
 
-    env.addFilter('asyncFilter', function(val, callba) {
+    env.addFilter('dateToString', function(val, callba) {
         if (val instanceof Date)
         {
             let dateResult = moment(val, "DD/MM/YYYY").format("DD-MM-YYYY");
