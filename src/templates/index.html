@@ -1,14 +1,11 @@
 {% extends "layout.html" %}
 
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="/static/style.css">
+{% endblock %}
+
 {% block content %}
-{#
-<html>
-    <head>
-        <title> projet S2 bibliothèque</title>
-        <link rel="stylesheet" href="/static/style.css">
-    </head>
-    <body>
-#}
         <h1>Demo. Projet S2 bibliothèque avec TypeOrm</h1>
         <hr>
         <p>
@@ -16,12 +13,6 @@
         </p>
         <hr>
         <i>
-
-
-
+             Lire le fichier Readme.md
         </i>
-{#
-    </body>
-</html>
-#}
 {% endblock %}

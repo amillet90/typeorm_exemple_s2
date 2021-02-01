@@ -23,15 +23,23 @@ Etapes pour démarrer ce projet :
     * <https://www.npmjs.com/package/express-nunjucks#use-globals>
 
 
-<br>  
 
-mysql --user=votreLogin  --password=votreMotDePasse --host=localhost --database=typeorm_test
 
 <br> 
 
 npm install express-validator moment --save
+
+<br>  
+
 npm install passport passport-local cookie-parser cookie-session --save
 
+<br>  
+
+Se connecter dans un terminal sur mysql, puis ajouter les enregistrements ci-dessous lorsque les tables sont créées
+
+`mysql --user=votreLogin  --password=votreMotDePasse --host=localhost --database=typeorm_test`
+
+<br>
 
 ```sql
 -- DROP TABLE IF EXISTS  EMPRUNTS, EXEMPLAIRES , OEUVRES,AUTEURS, ADHERENTS   ; 

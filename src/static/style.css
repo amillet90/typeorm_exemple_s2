@@ -1,4 +1,4 @@
-body {
+/*body {
     margin: auto;
     margin-top: 10em;
     max-width: 600px;
@@ -21,4 +21,8 @@ blockquote p::before {
 
 blockquote p::after {
     content: '\201D';
+} */
+
+h1 {
+    color: #008cba;
 }
